@@ -1,0 +1,630 @@
+<?xml version="1.0"?>
+<rdf:RDF xmlns="urn:absolute:enterprise.owl#"
+     xml:base="urn:absolute:enterprise.owl"
+     xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+     xmlns:owl="http://www.w3.org/2002/07/owl#"
+     xmlns:xml="http://www.w3.org/XML/1998/namespace"
+     xmlns:xsd="http://www.w3.org/2001/XMLSchema#"
+     xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#">
+    <owl:Ontology rdf:about="urn:absolute:enterprise.owl"/>
+    
+
+
+    <!-- 
+    ///////////////////////////////////////////////////////////////////////////////////////
+    //
+    // Object Properties
+    //
+    ///////////////////////////////////////////////////////////////////////////////////////
+     -->
+
+    
+
+
+    <!-- urn:absolute:enterprise.owl#employs -->
+
+    <owl:ObjectProperty rdf:about="urn:absolute:enterprise.owl#employs">
+        <owl:inverseOf rdf:resource="urn:absolute:enterprise.owl#is-employed-by"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- urn:absolute:enterprise.owl#has-part -->
+
+    <owl:ObjectProperty rdf:about="urn:absolute:enterprise.owl#has-part">
+        <owl:inverseOf rdf:resource="urn:absolute:enterprise.owl#is-part-of"/>
+        <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#TransitiveProperty"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- urn:absolute:enterprise.owl#is-employed-by -->
+
+    <owl:ObjectProperty rdf:about="urn:absolute:enterprise.owl#is-employed-by"/>
+    
+
+
+    <!-- urn:absolute:enterprise.owl#is-managed-by -->
+
+    <owl:ObjectProperty rdf:about="urn:absolute:enterprise.owl#is-managed-by">
+        <owl:inverseOf rdf:resource="urn:absolute:enterprise.owl#manages"/>
+        <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#FunctionalProperty"/>
+        <rdfs:range rdf:resource="urn:absolute:enterprise.owl#Employee"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- urn:absolute:enterprise.owl#is-part-of -->
+
+    <owl:ObjectProperty rdf:about="urn:absolute:enterprise.owl#is-part-of"/>
+    
+
+
+    <!-- urn:absolute:enterprise.owl#manages -->
+
+    <owl:ObjectProperty rdf:about="urn:absolute:enterprise.owl#manages">
+        <rdfs:domain rdf:resource="urn:absolute:enterprise.owl#Employee"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- 
+    ///////////////////////////////////////////////////////////////////////////////////////
+    //
+    // Classes
+    //
+    ///////////////////////////////////////////////////////////////////////////////////////
+     -->
+
+    
+
+
+    <!-- urn:absolute:enterprise.owl#Administration -->
+
+    <owl:Class rdf:about="urn:absolute:enterprise.owl#Administration">
+        <rdfs:subClassOf rdf:resource="urn:absolute:enterprise.owl#Department"/>
+    </owl:Class>
+    
+
+
+    <!-- urn:absolute:enterprise.owl#Administrative-Employee -->
+
+    <owl:Class rdf:about="urn:absolute:enterprise.owl#Administrative-Employee">
+        <owl:equivalentClass>
+            <owl:Class>
+                <owl:unionOf rdf:parseType="Collection">
+                    <owl:Restriction>
+                        <owl:onProperty rdf:resource="urn:absolute:enterprise.owl#is-employed-by"/>
+                        <owl:someValuesFrom rdf:resource="urn:absolute:enterprise.owl#Administration"/>
+                    </owl:Restriction>
+                    <owl:Restriction>
+                        <owl:onProperty rdf:resource="urn:absolute:enterprise.owl#is-employed-by"/>
+                        <owl:someValuesFrom>
+                            <owl:Restriction>
+                                <owl:onProperty rdf:resource="urn:absolute:enterprise.owl#is-part-of"/>
+                                <owl:someValuesFrom rdf:resource="urn:absolute:enterprise.owl#Administration"/>
+                            </owl:Restriction>
+                        </owl:someValuesFrom>
+                    </owl:Restriction>
+                </owl:unionOf>
+            </owl:Class>
+        </owl:equivalentClass>
+        <rdfs:subClassOf rdf:resource="urn:absolute:enterprise.owl#Employee"/>
+    </owl:Class>
+    
+
+
+    <!-- urn:absolute:enterprise.owl#BigEnterprise -->
+
+    <owl:Class rdf:about="urn:absolute:enterprise.owl#BigEnterprise">
+        <owl:equivalentClass>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="urn:absolute:enterprise.owl#employs"/>
+                <owl:minQualifiedCardinality rdf:datatype="http://www.w3.org/2001/XMLSchema#nonNegativeInteger">80</owl:minQualifiedCardinality>
+                <owl:onClass rdf:resource="urn:absolute:enterprise.owl#Employee"/>
+            </owl:Restriction>
+        </owl:equivalentClass>
+        <rdfs:subClassOf rdf:resource="urn:absolute:enterprise.owl#Enterprise"/>
+    </owl:Class>
+    
+
+
+    <!-- urn:absolute:enterprise.owl#Boss -->
+
+    <owl:Class rdf:about="urn:absolute:enterprise.owl#Boss">
+        <owl:equivalentClass>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="urn:absolute:enterprise.owl#manages"/>
+                <owl:someValuesFrom rdf:resource="urn:absolute:enterprise.owl#Office"/>
+            </owl:Restriction>
+        </owl:equivalentClass>
+        <rdfs:subClassOf rdf:resource="urn:absolute:enterprise.owl#Employee"/>
+    </owl:Class>
+    
+
+
+    <!-- urn:absolute:enterprise.owl#Department -->
+
+    <owl:Class rdf:about="urn:absolute:enterprise.owl#Department">
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="urn:absolute:enterprise.owl#is-part-of"/>
+                <owl:someValuesFrom rdf:resource="urn:absolute:enterprise.owl#Enterprise"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+    </owl:Class>
+    
+
+
+    <!-- urn:absolute:enterprise.owl#Employee -->
+
+    <owl:Class rdf:about="urn:absolute:enterprise.owl#Employee">
+        <owl:equivalentClass>
+            <owl:Class>
+                <owl:unionOf rdf:parseType="Collection">
+                    <owl:Restriction>
+                        <owl:onProperty rdf:resource="urn:absolute:enterprise.owl#is-employed-by"/>
+                        <owl:someValuesFrom rdf:resource="urn:absolute:enterprise.owl#Enterprise"/>
+                    </owl:Restriction>
+                    <owl:Restriction>
+                        <owl:onProperty rdf:resource="urn:absolute:enterprise.owl#is-employed-by"/>
+                        <owl:someValuesFrom>
+                            <owl:Restriction>
+                                <owl:onProperty rdf:resource="urn:absolute:enterprise.owl#is-part-of"/>
+                                <owl:someValuesFrom rdf:resource="urn:absolute:enterprise.owl#Enterprise"/>
+                            </owl:Restriction>
+                        </owl:someValuesFrom>
+                    </owl:Restriction>
+                </owl:unionOf>
+            </owl:Class>
+        </owl:equivalentClass>
+        <rdfs:subClassOf rdf:resource="urn:absolute:enterprise.owl#Someone"/>
+    </owl:Class>
+    
+
+
+    <!-- urn:absolute:enterprise.owl#Enterprise -->
+
+    <owl:Class rdf:about="urn:absolute:enterprise.owl#Enterprise">
+        <rdfs:subClassOf>
+            <owl:Class>
+                <owl:intersectionOf rdf:parseType="Collection">
+                    <owl:Restriction>
+                        <owl:onProperty rdf:resource="urn:absolute:enterprise.owl#employs"/>
+                        <owl:someValuesFrom rdf:resource="urn:absolute:enterprise.owl#Someone"/>
+                    </owl:Restriction>
+                    <owl:Restriction>
+                        <owl:onProperty rdf:resource="urn:absolute:enterprise.owl#is-managed-by"/>
+                        <owl:someValuesFrom rdf:resource="urn:absolute:enterprise.owl#Someone"/>
+                    </owl:Restriction>
+                </owl:intersectionOf>
+            </owl:Class>
+        </rdfs:subClassOf>
+    </owl:Class>
+    
+
+
+    <!-- urn:absolute:enterprise.owl#FamilyBasedEnterprise -->
+
+    <owl:Class rdf:about="urn:absolute:enterprise.owl#FamilyBasedEnterprise">
+        <owl:equivalentClass>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="urn:absolute:enterprise.owl#employs"/>
+                <owl:maxQualifiedCardinality rdf:datatype="http://www.w3.org/2001/XMLSchema#nonNegativeInteger">4</owl:maxQualifiedCardinality>
+                <owl:onClass rdf:resource="urn:absolute:enterprise.owl#Employee"/>
+            </owl:Restriction>
+        </owl:equivalentClass>
+        <rdfs:subClassOf rdf:resource="urn:absolute:enterprise.owl#Enterprise"/>
+    </owl:Class>
+    
+
+
+    <!-- urn:absolute:enterprise.owl#HighTechEnterprise -->
+
+    <owl:Class rdf:about="urn:absolute:enterprise.owl#HighTechEnterprise">
+        <owl:equivalentClass>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="urn:absolute:enterprise.owl#has-part"/>
+                <owl:someValuesFrom rdf:resource="urn:absolute:enterprise.owl#Research"/>
+            </owl:Restriction>
+        </owl:equivalentClass>
+        <rdfs:subClassOf rdf:resource="urn:absolute:enterprise.owl#Enterprise"/>
+    </owl:Class>
+    
+
+
+    <!-- urn:absolute:enterprise.owl#HumanResources -->
+
+    <owl:Class rdf:about="urn:absolute:enterprise.owl#HumanResources">
+        <rdfs:subClassOf rdf:resource="urn:absolute:enterprise.owl#Department"/>
+    </owl:Class>
+    
+
+
+    <!-- urn:absolute:enterprise.owl#IndustrialEnterprise -->
+
+    <owl:Class rdf:about="urn:absolute:enterprise.owl#IndustrialEnterprise">
+        <owl:equivalentClass>
+            <owl:Class>
+                <owl:intersectionOf rdf:parseType="Collection">
+                    <owl:Restriction>
+                        <owl:onProperty rdf:resource="urn:absolute:enterprise.owl#has-part"/>
+                        <owl:someValuesFrom rdf:resource="urn:absolute:enterprise.owl#Production"/>
+                    </owl:Restriction>
+                    <owl:Restriction>
+                        <owl:onProperty rdf:resource="urn:absolute:enterprise.owl#employs"/>
+                        <owl:minQualifiedCardinality rdf:datatype="http://www.w3.org/2001/XMLSchema#nonNegativeInteger">100</owl:minQualifiedCardinality>
+                        <owl:onClass rdf:resource="urn:absolute:enterprise.owl#Employee"/>
+                    </owl:Restriction>
+                </owl:intersectionOf>
+            </owl:Class>
+        </owl:equivalentClass>
+        <rdfs:subClassOf rdf:resource="urn:absolute:enterprise.owl#Enterprise"/>
+    </owl:Class>
+    
+
+
+    <!-- urn:absolute:enterprise.owl#Manager -->
+
+    <owl:Class rdf:about="urn:absolute:enterprise.owl#Manager">
+        <owl:equivalentClass>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="urn:absolute:enterprise.owl#manages"/>
+                <owl:someValuesFrom rdf:resource="urn:absolute:enterprise.owl#Department"/>
+            </owl:Restriction>
+        </owl:equivalentClass>
+        <rdfs:subClassOf rdf:resource="urn:absolute:enterprise.owl#Employee"/>
+    </owl:Class>
+    
+
+
+    <!-- urn:absolute:enterprise.owl#Office -->
+
+    <owl:Class rdf:about="urn:absolute:enterprise.owl#Office">
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="urn:absolute:enterprise.owl#is-part-of"/>
+                <owl:someValuesFrom rdf:resource="urn:absolute:enterprise.owl#Department"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+    </owl:Class>
+    
+
+
+    <!-- urn:absolute:enterprise.owl#Production -->
+
+    <owl:Class rdf:about="urn:absolute:enterprise.owl#Production">
+        <rdfs:subClassOf rdf:resource="urn:absolute:enterprise.owl#Department"/>
+    </owl:Class>
+    
+
+
+    <!-- urn:absolute:enterprise.owl#PublicRelations -->
+
+    <owl:Class rdf:about="urn:absolute:enterprise.owl#PublicRelations">
+        <rdfs:subClassOf rdf:resource="urn:absolute:enterprise.owl#Department"/>
+    </owl:Class>
+    
+
+
+    <!-- urn:absolute:enterprise.owl#Research -->
+
+    <owl:Class rdf:about="urn:absolute:enterprise.owl#Research">
+        <rdfs:subClassOf rdf:resource="urn:absolute:enterprise.owl#Department"/>
+    </owl:Class>
+    
+
+
+    <!-- urn:absolute:enterprise.owl#SmallEnterprise -->
+
+    <owl:Class rdf:about="urn:absolute:enterprise.owl#SmallEnterprise">
+        <owl:equivalentClass>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="urn:absolute:enterprise.owl#employs"/>
+                <owl:maxQualifiedCardinality rdf:datatype="http://www.w3.org/2001/XMLSchema#nonNegativeInteger">20</owl:maxQualifiedCardinality>
+                <owl:onClass rdf:resource="urn:absolute:enterprise.owl#Employee"/>
+            </owl:Restriction>
+        </owl:equivalentClass>
+        <rdfs:subClassOf rdf:resource="urn:absolute:enterprise.owl#Enterprise"/>
+    </owl:Class>
+    
+
+
+    <!-- urn:absolute:enterprise.owl#Someone -->
+
+    <owl:Class rdf:about="urn:absolute:enterprise.owl#Someone"/>
+    
+
+
+    <!-- urn:absolute:enterprise.owl#TopManager -->
+
+    <owl:Class rdf:about="urn:absolute:enterprise.owl#TopManager">
+        <owl:equivalentClass>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="urn:absolute:enterprise.owl#manages"/>
+                <owl:someValuesFrom rdf:resource="urn:absolute:enterprise.owl#BigEnterprise"/>
+            </owl:Restriction>
+        </owl:equivalentClass>
+        <rdfs:subClassOf rdf:resource="urn:absolute:enterprise.owl#Employee"/>
+    </owl:Class>
+    
+
+
+    <!-- urn:absolute:enterprise.owl#Trade -->
+
+    <owl:Class rdf:about="urn:absolute:enterprise.owl#Trade">
+        <rdfs:subClassOf rdf:resource="urn:absolute:enterprise.owl#Department"/>
+    </owl:Class>
+    
+
+
+    <!-- 
+    ///////////////////////////////////////////////////////////////////////////////////////
+    //
+    // Individuals
+    //
+    ///////////////////////////////////////////////////////////////////////////////////////
+     -->
+
+    
+
+
+    <!-- urn:absolute:enterprise.owl#AD1 -->
+
+    <owl:NamedIndividual rdf:about="urn:absolute:enterprise.owl#AD1">
+        <rdf:type rdf:resource="urn:absolute:enterprise.owl#Administration"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- urn:absolute:enterprise.owl#AD3 -->
+
+    <owl:NamedIndividual rdf:about="urn:absolute:enterprise.owl#AD3"/>
+    
+
+
+    <!-- urn:absolute:enterprise.owl#Alcatel -->
+
+    <owl:NamedIndividual rdf:about="urn:absolute:enterprise.owl#Alcatel">
+        <rdf:type rdf:resource="urn:absolute:enterprise.owl#Enterprise"/>
+        <rdf:type>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="urn:absolute:enterprise.owl#has-part"/>
+                <owl:someValuesFrom rdf:resource="urn:absolute:enterprise.owl#Production"/>
+            </owl:Restriction>
+        </rdf:type>
+        <rdf:type>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="urn:absolute:enterprise.owl#has-part"/>
+                <owl:hasValue rdf:resource="urn:absolute:enterprise.owl#AD1"/>
+            </owl:Restriction>
+        </rdf:type>
+        <rdf:type>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="urn:absolute:enterprise.owl#has-part"/>
+                <owl:hasValue rdf:resource="urn:absolute:enterprise.owl#HRD1"/>
+            </owl:Restriction>
+        </rdf:type>
+        <rdf:type>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="urn:absolute:enterprise.owl#has-part"/>
+                <owl:hasValue rdf:resource="urn:absolute:enterprise.owl#RD1"/>
+            </owl:Restriction>
+        </rdf:type>
+        <rdf:type>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="urn:absolute:enterprise.owl#employs"/>
+                <owl:qualifiedCardinality rdf:datatype="http://www.w3.org/2001/XMLSchema#nonNegativeInteger">2000</owl:qualifiedCardinality>
+                <owl:onClass rdf:resource="urn:absolute:enterprise.owl#Employee"/>
+            </owl:Restriction>
+        </rdf:type>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- urn:absolute:enterprise.owl#Anne -->
+
+    <owl:NamedIndividual rdf:about="urn:absolute:enterprise.owl#Anne">
+        <rdf:type>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="urn:absolute:enterprise.owl#is-employed-by"/>
+                <owl:hasValue rdf:resource="urn:absolute:enterprise.owl#OFF3"/>
+            </owl:Restriction>
+        </rdf:type>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- urn:absolute:enterprise.owl#Bob -->
+
+    <owl:NamedIndividual rdf:about="urn:absolute:enterprise.owl#Bob">
+        <rdf:type>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="urn:absolute:enterprise.owl#manages"/>
+                <owl:hasValue rdf:resource="urn:absolute:enterprise.owl#OFF3"/>
+            </owl:Restriction>
+        </rdf:type>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- urn:absolute:enterprise.owl#Dave -->
+
+    <owl:NamedIndividual rdf:about="urn:absolute:enterprise.owl#Dave">
+        <rdf:type>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="urn:absolute:enterprise.owl#is-employed-by"/>
+                <owl:hasValue rdf:resource="urn:absolute:enterprise.owl#SmithBrothers"/>
+            </owl:Restriction>
+        </rdf:type>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- urn:absolute:enterprise.owl#Dino -->
+
+    <owl:NamedIndividual rdf:about="urn:absolute:enterprise.owl#Dino">
+        <rdf:type>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="urn:absolute:enterprise.owl#is-employed-by"/>
+                <owl:hasValue rdf:resource="urn:absolute:enterprise.owl#SmithBrothers"/>
+            </owl:Restriction>
+        </rdf:type>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- urn:absolute:enterprise.owl#Frank -->
+
+    <owl:NamedIndividual rdf:about="urn:absolute:enterprise.owl#Frank">
+        <rdf:type>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="urn:absolute:enterprise.owl#is-employed-by"/>
+                <owl:hasValue rdf:resource="urn:absolute:enterprise.owl#SmithBrothers"/>
+            </owl:Restriction>
+        </rdf:type>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- urn:absolute:enterprise.owl#HRD1 -->
+
+    <owl:NamedIndividual rdf:about="urn:absolute:enterprise.owl#HRD1">
+        <rdf:type rdf:resource="urn:absolute:enterprise.owl#HumanResources"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- urn:absolute:enterprise.owl#Jim -->
+
+    <owl:NamedIndividual rdf:about="urn:absolute:enterprise.owl#Jim">
+        <rdf:type>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="urn:absolute:enterprise.owl#manages"/>
+                <owl:hasValue rdf:resource="urn:absolute:enterprise.owl#AD3"/>
+            </owl:Restriction>
+        </rdf:type>
+        <rdf:type>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="urn:absolute:enterprise.owl#manages"/>
+                <owl:hasValue rdf:resource="urn:absolute:enterprise.owl#Alcatel"/>
+            </owl:Restriction>
+        </rdf:type>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- urn:absolute:enterprise.owl#Joe -->
+
+    <owl:NamedIndividual rdf:about="urn:absolute:enterprise.owl#Joe">
+        <rdf:type>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="urn:absolute:enterprise.owl#is-employed-by"/>
+                <owl:hasValue rdf:resource="urn:absolute:enterprise.owl#OFF3"/>
+            </owl:Restriction>
+        </rdf:type>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- urn:absolute:enterprise.owl#Kate -->
+
+    <owl:NamedIndividual rdf:about="urn:absolute:enterprise.owl#Kate">
+        <rdf:type>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="urn:absolute:enterprise.owl#is-employed-by"/>
+                <owl:hasValue rdf:resource="urn:absolute:enterprise.owl#SmithBrothers"/>
+            </owl:Restriction>
+        </rdf:type>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- urn:absolute:enterprise.owl#Lea -->
+
+    <owl:NamedIndividual rdf:about="urn:absolute:enterprise.owl#Lea">
+        <rdf:type>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="urn:absolute:enterprise.owl#is-employed-by"/>
+                <owl:hasValue rdf:resource="urn:absolute:enterprise.owl#SmithBrothers"/>
+            </owl:Restriction>
+        </rdf:type>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- urn:absolute:enterprise.owl#OFF1 -->
+
+    <owl:NamedIndividual rdf:about="urn:absolute:enterprise.owl#OFF1">
+        <rdf:type rdf:resource="urn:absolute:enterprise.owl#Office"/>
+        <rdf:type>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="urn:absolute:enterprise.owl#is-part-of"/>
+                <owl:hasValue rdf:resource="urn:absolute:enterprise.owl#RD1"/>
+            </owl:Restriction>
+        </rdf:type>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- urn:absolute:enterprise.owl#OFF2 -->
+
+    <owl:NamedIndividual rdf:about="urn:absolute:enterprise.owl#OFF2">
+        <rdf:type rdf:resource="urn:absolute:enterprise.owl#Office"/>
+        <rdf:type>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="urn:absolute:enterprise.owl#is-part-of"/>
+                <owl:hasValue rdf:resource="urn:absolute:enterprise.owl#RD1"/>
+            </owl:Restriction>
+        </rdf:type>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- urn:absolute:enterprise.owl#OFF3 -->
+
+    <owl:NamedIndividual rdf:about="urn:absolute:enterprise.owl#OFF3">
+        <rdf:type rdf:resource="urn:absolute:enterprise.owl#Office"/>
+        <rdf:type>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="urn:absolute:enterprise.owl#is-part-of"/>
+                <owl:hasValue rdf:resource="urn:absolute:enterprise.owl#AD1"/>
+            </owl:Restriction>
+        </rdf:type>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- urn:absolute:enterprise.owl#OFF4 -->
+
+    <owl:NamedIndividual rdf:about="urn:absolute:enterprise.owl#OFF4">
+        <rdf:type rdf:resource="urn:absolute:enterprise.owl#Office"/>
+        <rdf:type>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="urn:absolute:enterprise.owl#is-part-of"/>
+                <owl:hasValue rdf:resource="urn:absolute:enterprise.owl#AD1"/>
+            </owl:Restriction>
+        </rdf:type>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- urn:absolute:enterprise.owl#RD1 -->
+
+    <owl:NamedIndividual rdf:about="urn:absolute:enterprise.owl#RD1">
+        <rdf:type rdf:resource="urn:absolute:enterprise.owl#Research"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- urn:absolute:enterprise.owl#SmithBrothers -->
+
+    <owl:NamedIndividual rdf:about="urn:absolute:enterprise.owl#SmithBrothers">
+        <rdf:type rdf:resource="urn:absolute:enterprise.owl#FamilyBasedEnterprise"/>
+    </owl:NamedIndividual>
+</rdf:RDF>
+
+
+
+<!-- Generated by the OWL API (version 4.2.8.20170104-2310) https://github.com/owlcs/owlapi -->
+
